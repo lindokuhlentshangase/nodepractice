@@ -1,0 +1,50 @@
+body{
+    background-color: antiquewhite;
+    height: 100vh;
+    box-sizing: border-box;
+}
+h1{
+    text-align: center;
+}
+
+/* .container{
+    margin: 0%;
+    text-align: center;
+    border: 2px solid;
+    padding: 40px 50px;
+    position: relative;
+} */
+
+#newtask{
+    background-color: beige;
+    border: 2px solid;
+    padding: 40px;
+    border-radius: 5px;
+    justify-content: center;
+}
+
+#newtask button{
+    background-color: cornflowerblue;
+    width: 40px;
+    border-radius: 3px;
+}
+
+#tasks{
+    background-color: white;
+    padding: 30px;
+    margin: 60px;
+    border-radius: 4px;
+    position: relative;
+}
+
+.task{
+    background-color: white;
+    height: 50px;
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.completed{
+    text-decoration: line-through;
+}
