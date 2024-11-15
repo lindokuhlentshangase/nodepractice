@@ -1,29 +1,6 @@
-const express = require("express");
-const cors =require("cors");
-const { error } = require("console");
-const Pool = require('pg').Pool
+import pool from '../db/db.js'
 
-const app = express();//initializing express
-app.use(express.json());
-app.use(cors());
-const pool = new Pool({
-    "previewLimit": 50,
-  "server": "localhost",
-  "port": 5432,
-  "driver": "PostgreSQL",
-  "name": "nodepractice",
-  "database": "nodepractice",
-  "username": "postgres",
-  "password": ""
-})
-
-const port = process.env.PORT || 8000;
-
-app.get("/", (req, res) =>{
-    res.status(200).send("Server has started");
-})
-
-app.get("/tasks", (req, res) =>{
+async function getTasks(req,res) {
     pool.query('SELECT * FROM tasks', (error, results) => {
         if(error){
             console.error(error);
@@ -31,20 +8,26 @@ app.get("/tasks", (req, res) =>{
         }
         res.status(200).json(results.rows)
     });
-});
+}
 
-app.post("/add", async(req, res) =>{
-    const {task, completed} = req.body
+// pp.get("/", (req, res) =>{
+//     res.status(200).send("Server has started");
+// })
+
+
+
+const addTask = async(req, res) =>{
+    const {id,task} = req.body
     
-    pool.query('INSERT INTO tasks (task, completed) VALUES ($1,$2)', [task, completed], error,results => {
+    pool.query('INSERT INTO tasks (task, completed) VALUES ($1,$2,$3)', [id, task, completed], error,results => {
         if(error){
             console.error(error);
             return res.status(500).json({error: 'Internal server error'});
         }
         res.status(200).json(results.rows)
     });
+};
 
-})
 
 app.delete("/delete:id", async(req, res) =>{
     const id = parseInt(req.params.id, 1);
@@ -68,7 +51,8 @@ app.delete("/delete:id", async(req, res) =>{
     
 });
 
-app.listen(port, () =>{
-    console.log(`Server started at${port}.`);
-})
 
+
+
+
+export {getTasks}
